@@ -1,5 +1,5 @@
 === Sales Popup for Woocommerce ===
-Contributors: taxarpro, DanielRiera
+Contributors: DanielRiera
 Donate link: https://paypal.me/taxarpro
 Tags: woocommerce, increase, sales
 Requires at least: 4.3
