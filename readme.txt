@@ -1,11 +1,11 @@
 === Sales Popup for Woocommerce ===
 Contributors: DanielRiera
-Donate link: https://paypal.me/taxarpro
-Tags: woocommerce, increase, sales
+Donate link: https://www.paypal.com/donate/?hosted_button_id=EZ67DG78KMXWQ
+Tags: woocommerce, increase, sales, popup woocommere, order popup
 Requires at least: 4.3
-Tested up to: 5.7.2
+Tested up to: 6.4.2
 Requires PHP: 5.0
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -51,5 +51,9 @@ We are all ears, write in the plugin support forum to request the functions you 
 
 
 == Changelog ==
+
+= 1.0.2 =
+* Fix Error
+* Compatibility with last WP and WC versions
 
 1.0.0 Release

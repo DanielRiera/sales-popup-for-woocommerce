@@ -104,7 +104,7 @@ msgstr ""
 
 #: views/options.php:73
 msgid "You buy me a beer? Click here"
-msgstr "¿Me compras una cerveza? Haz clic aquí"
+msgstr "¿Me invitas a una cerveza? Haz clic aquí"
 
 #: views/options.php:88
 msgid "Name of the ghost visitor"

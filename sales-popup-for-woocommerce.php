@@ -2,10 +2,14 @@
 /**
  * Plugin Name: Sales Popup for Woocommerce
  * Description: Show pop-ups of WooCommerce products sold to increase sales by showing products that may interest the user 
- * Version: 1.0.1
+ * Version: 1.0.2
  * Author: Daniel Riera
  * Author URI: https://danielriera.net
  * Text Domain: wtsales
+ * WC requires at least: 3.0
+ * WC tested up to: 8.3.1
+ * Required WP: 5.0
+ * Tested WP: 6.4.2
  */
 
 

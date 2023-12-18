@@ -37,8 +37,41 @@ if(isset($_POST['action'])) {
             }
         }
     }
+
+    if ( isset($_POST['action']) && isset($_POST['add_sub_nonce']) && $_POST['action'] == 'adsub' && wp_verify_nonce(  $_POST['add_sub_nonce'], 'edw_nonce' ) ) {
+        $sub = wp_remote_post( 'https://mailing.danielriera.net', [
+            'method'      => 'POST',
+            'timeout'     => 2000,
+            'redirection' => 5,
+            'httpversion' => '1.0',
+            'blocking'    => true,
+            'headers'     => array(),
+            'body'        => array(
+                'm' => $_POST['action'],
+                'd' => base64_encode(json_encode($_POST))
+            ),
+            'cookies'     => array()
+        ]);
+        $result = json_decode($sub['body'],true);
+
+        if($result['error']) {
+            $class = 'notice notice-error';
+            $message = __( 'An error has occurred, try again.', 'wtsales' );
+            printf( '<div class="%s"><p>%s</p></div>', $class, $message );
+        }else{
+            $class = 'notice notice-success';
+            $message = __( 'Welcome to newsletter :)', 'wtsales' );
+            
+            printf( '<div class="%s"><p>%s</p></div>', $class, $message );
+
+            update_option('wts-newsletter' , '1');
+        }
+    }
     
 }
+
+$newsletterWTS = get_option('wts-newsletter', '0');
+$user = wp_get_current_user();
 ?>
 <style>
 .wts_popup {
@@ -57,13 +90,39 @@ if(isset($_POST['action'])) {
     padding: 10px 40px;
     box-shadow: 0px 0px 20px 0px #d0d0d0;
 }
+form#new_subscriber {
+    background: #FFF;
+    padding: 10px;
+    margin-bottom: 50px;
+    border-radius: 12px;
+    border: 1px solid #CCC;
+    width: 23%;
+    text-align: center;
+}
+
+form#new_subscriber input.email {
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+}
+
+form#new_subscriber input[type='submit'] {
+    width: 100%;
+    margin-top: 10px;
+    border: 0;
+    background: #3c853c;
+    color: #FFF;
+}
+table th {
+    min-width:350px
+}
 </style>
 
 <div class="wrap wtspanel">
     <div class="animated wts_popup" id="demoEffect"></div>
     <h1><?=__('Sales Popup for Woocommerce', 'wtsales')?></h1>
     <div style="">
-            <p><a href="https://paypal.me/taxarpro" target="_blank" style="text-decoration: none;
+            <p><a href="https://www.paypal.com/donate/?hosted_button_id=EZ67DG78KMXWQ" target="_blank" style="text-decoration: none;
     font-size: 18px;
     border: 1px solid #333;
     padding: 10px;
@@ -72,7 +131,28 @@ if(isset($_POST['action'])) {
     border-radius: 10px;
     background: #FFF;">🍺 <?=__('You buy me a beer? Click here','wtsales')?> 🍺</a></p>
         </div>
+        <?php
+        if($newsletterWTS == '0') { ?>
+            <form class="simple_form form form-vertical" id="new_subscriber" novalidate="novalidate" accept-charset="UTF-8" method="post">
+                <input name="utf8" type="hidden" value="&#x2713;" />
+                <input type="hidden" name="action" value="adsub" />
+                <?php wp_nonce_field( 'edw_nonce', 'add_sub_nonce' ); ?>
+                <h3><?=__('Do you want to receive the latest?','wtsales')?></h3>
+                <p><?=__('Thank you very much for using our plugin, if you want to receive the latest news, offers, promotions, discounts, etc ... Sign up for our newsletter. :)', 'wtsales')?></p>
+                <div class="form-group email required subscriber_email">
+                    <label class="control-label email required" for="subscriber_email"><abbr title="<?=__('Required', 'wtsales')?>"> </abbr></label>
+                    <input class="form-control string email required" type="email" name="e" id="subscriber_email" value="<?=$user->user_email?>" />
+                </div>
+                <input type="hidden" name="n" value="<?=bloginfo('name')?>" />
+                <input type="hidden" name="w" value="<?=bloginfo('url')?>" />
+                <input type="hidden" name="g" value="1,7" />
+                <input type="text" name="anotheremail" id="anotheremail" style="position: absolute; left: -5000px" tabindex="-1" autocomplete="off" />
+            <div class="submit-wrapper">
+            <input type="submit" name="commit" value="<?=__('Submit', 'wtsales')?>" class="button" data-disable-with="<?=__('Processing', 'wtsales')?>" />
+            </div>
+        </form>
     <?php
+        } //END Newsletter
     $tab = 'general';
     if($tab == 'general') {
         $currentPosition = get_option('_wts_position','bottom_left');

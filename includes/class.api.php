@@ -127,7 +127,7 @@ if( !class_exists( 'WTSales_API' ) ) {
                 $res= array(
                     'title' => $product->get_title(),
                     'description' => $product->get_description(),
-                    'precio' =>  $product->get_price_including_tax(),
+                    'precio' =>  wc_get_price_including_tax($product),
                     'image' => wp_get_attachment_image_src( get_post_thumbnail_id( $idProduct ), 'medium' ),
                 );
                 if(!$res['image']) {
@@ -166,7 +166,7 @@ if( !class_exists( 'WTSales_API' ) ) {
                     </div>
                 </div></a>';
 
-                update_post_meta($product->get_id(),'_wts_shows',intval(get_post_meta($product->get_id(),'_wts_shows', true) + 1));
+                update_post_meta($product->get_id(),'_wts_shows',intval(get_post_meta($product->get_id(),'_wts_shows', true)) + 1);
                 return $string;
             }else{
                 return false;
